@@ -1,0 +1,25 @@
+# <TYPE>: <short summary in imperative mood>
+#
+# Types (pandas-style — pick one):
+#   ENH:  new feature / brick
+#   BUG:  bug fix
+#   PERF: performance
+#   REF:  refactor (no behavior change)
+#   BLD:  build system / go.mod / install
+#   CI:   GitHub Actions / hooks
+#   DOC:  docs / README
+#   TST:  tests
+#   STY:  formatting only
+#   API:  public API change
+#   DIST: packaging / release artifacts
+#   MAINT: chores, deps bump without feature
+#
+# Examples:
+#   ENH: add Audience brick for segment sync
+#   BUG: fix credentials path when HOME unset
+#   CI: run go test on pull requests
+#
+# Rules:
+#   - Subject ≤ 72 chars, no trailing period
+#   - Do NOT mention Cursor, Codex, Copilot, ChatGPT, or "AI generated"
+#   - Do NOT add Co-authored-by for tools/agents

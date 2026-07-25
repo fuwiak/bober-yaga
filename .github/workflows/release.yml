@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Build matrices
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          ver="${GITHUB_REF_NAME}"
+          for os_arch in linux/amd64 linux/arm64 darwin/amd64 darwin/arm64; do
+            os="${os_arch%/*}"
+            arch="${os_arch#*/}"
+            out="dist/yaga_${ver}_${os}_${arch}"
+            GOOS="$os" GOARCH="$arch" CGO_ENABLED=0 go build -ldflags "-s -w" -o "$out" .
+            chmod +x "$out"
+            (cd dist && sha256sum "$(basename "$out")" > "$(basename "$out").sha256")
+          done
+          ls -la dist
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

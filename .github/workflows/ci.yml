@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  go:
+    name: Go
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Build
+        run: go build -o yaga .
+
+      - name: Test
+        run: go test ./...
+
+      - name: Smoke
+        run: |
+          ./yaga version
+          ./yaga bricks list | head -30
+
+  commit-msg:
+    name: Commit message style
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR commits use TYPE: prefix
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          FAIL=0
+          while IFS= read -r line; do
+            sha="${line%% *}"
+            sub="${line#* }"
+            if [[ "$sub" =~ ^(Merge|Revert|Release) ]]; then
+              continue
+            fi
+            if ! [[ "$sub" =~ ^(ENH|BUG|PERF|REF|BLD|CI|DOC|TST|STY|API|DIST|MAINT|WEB|TYP|SEC): ]]; then
+              echo "BAD  $sha  $sub"
+              FAIL=1
+            elif echo "$sub" | grep -Eiq 'cursor|codex|copilot|chatgpt'; then
+              echo "TOOL $sha  $sub"
+              FAIL=1
+            else
+              echo "OK   $sha  $sub"
+            fi
+          done < <(git log --format='%H %s' "${BASE}..${HEAD}")
+          exit "$FAIL"
+
+  lint-hooks:
+    name: Hooks executable
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check hooks
+        run: |
+          test -x .githooks/commit-msg
+          test -x .githooks/prepare-commit-msg
+          bash -n .githooks/commit-msg
+          bash -n .githooks/prepare-commit-msg

@@ -1,0 +1,17 @@
+---
+description: Commit message style for yaga (pandas prefixes, no tool attribution)
+globs:
+alwaysApply: true
+---
+
+# Commits in this repo
+
+When creating git commits:
+
+1. Subject **must** start with a pandas-style type: `ENH:`, `BUG:`, `PERF:`, `REF:`, `BLD:`, `CI:`, `DOC:`, `TST:`, `STY:`, `API:`, `DIST:`, `MAINT:`, or `SEC:`.
+2. Imperative mood, ≤72 characters, no trailing period.
+3. **Never** mention Cursor, Codex, Copilot, ChatGPT, or “AI generated” in the subject or body.
+4. **Never** add `Co-authored-by:` trailers for tools or agents.
+5. Prefer HEREDOC for `git commit -m` as usual.
+
+Examples: `ENH: add Audience brick`, `BUG: fix HOME-less credentials path`, `CI: add release workflow`.

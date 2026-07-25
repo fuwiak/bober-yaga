@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Launch yaga (Go) from anywhere.
+set -euo pipefail
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -L "$SOURCE" ]]; do
+  DIR="$(cd "$(dirname "$SOURCE")" && pwd)"
+  LINK="$(readlink "$SOURCE")"
+  if [[ "$LINK" == /* ]]; then SOURCE="$LINK"; else SOURCE="$DIR/$LINK"; fi
+done
+HERE="$(cd "$(dirname "$SOURCE")" && pwd)"
+cd "$HERE"
+export YAGA_REPO="$(cd "$HERE/../.." && pwd)"
+if [[ -x ./yaga ]]; then
+  exec ./yaga "$@"
+fi
+exec go run . "$@"

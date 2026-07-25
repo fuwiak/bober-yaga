@@ -1,0 +1,24 @@
+# Binaries
+/yaga
+/yaga.exe
+/dist/
+*.test
+*.out
+
+# IDE / local
+.DS_Store
+.idea/
+.vscode/
+*.swp
+.env
+.env.*
+!.env.example
+
+# Node
+node/node_modules/
+node/package-lock.json
+
+# Coverage / tooling
+coverage.out
+coverage.html
+.golangci.cache/

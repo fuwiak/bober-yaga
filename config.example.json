@@ -1,0 +1,7 @@
+{
+  "profile": "owner",
+  "enabled": [],
+  "disabled": [],
+  "hidden": [],
+  "_comment": "Copy to ~/.config/yaga/config.json. Use profile=public to share a machine without Direct/GPT/Wordstat."
+}

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": ".cursor/hooks/block-bad-commit-msg.sh",
+        "matcher": "git commit"
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "yaga",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Yaga — modular Yandex ops CLI (bricks you can add/remove)",
+  "type": "module",
+  "bin": {
+    "yaga": "./bin/yaga.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

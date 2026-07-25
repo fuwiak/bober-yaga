@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Strip agent Co-authored-by trailers; seed template for new commits.
+set -euo pipefail
+
+MSG_FILE="${1:?}"
+SOURCE="${2:-}"
+
+# Always drop tool/agent trailers if a GUI/IDE injected them
+tmp="$(mktemp)"
+grep -Eiv \
+  '^[[:space:]]*Co-authored-by:.*(Cursor|Codex|Copilot|OpenAI|Anthropic|ChatGPT)' \
+  "$MSG_FILE" >"$tmp" || true
+mv "$tmp" "$MSG_FILE"
+
+# For plain `git commit` (no -m), prepend template comments if empty
+if [[ -z "$SOURCE" || "$SOURCE" == "template" ]]; then
+  if ! grep -qE '^(ENH|BUG|PERF|REF|BLD|CI|DOC|TST|STY|API|DIST|MAINT|WEB|TYP|SEC):' "$MSG_FILE"; then
+    if [[ -f .gitmessage ]]; then
+      # Keep existing body (if any), ensure template hints are present
+      if ! grep -q 'Types (pandas-style' "$MSG_FILE" 2>/dev/null; then
+        {
+          echo ""
+          cat .gitmessage
+        } >>"$MSG_FILE"
+      fi
+    fi
+  fi
+fi
+
+exit 0
