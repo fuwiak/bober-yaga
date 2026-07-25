@@ -1,23 +1,25 @@
 # yaga
 
-**yaga** (Яга) — modular Yandex ops CLI (Go + Charm Bubble Tea).
+**yaga** (Яга) — модульный CLI для сервисов Яндекса (Go + Charm Bubble Tea).
 
-Each service is a **brick** in `bricks.go`. Profiles hide private bricks.
+> **Неофициальный порт / клиент.** Это сторонний инструмент, **не** продукт Яндекса и **не** связан с ООО «Яндекс» официально. Используйте на свой страх и риск; API и условия сервисов Яндекса могут меняться.
 
-> Developed here: [`github.com/fuwiak/yaga`](https://github.com/fuwiak/yaga).  
-> Script bricks that call `scripts/*.mjs` expect a **bober-ai** checkout via `YAGA_REPO`.
+Каждый сервис — **brick** (кирпичик) в `bricks.go`. Профили скрывают private-функции.
 
-## Install
+Репозиторий: [`github.com/fuwiak/yaga`](https://github.com/fuwiak/yaga).  
+Brick’и, которые вызывают `scripts/*.mjs`, ожидают checkout **bober-ai** через `YAGA_REPO`.
+
+## Установка
 
 ```bash
 git clone https://github.com/fuwiak/yaga.git
 cd yaga
 go build -o yaga .
-./install.sh          # ~/bin/yaga → ./run
-./.githooks/install.sh  # commit style hooks (contributors)
+./install.sh            # ~/bin/yaga → ./run
+./.githooks/install.sh  # хуки стиля коммитов (для контрибьюторов)
 ```
 
-## Usage
+## Использование
 
 ```bash
 yaga                         # TUI
@@ -32,29 +34,56 @@ yaga doctor
 yaga credentials
 ```
 
-Point at bober-ai scripts when needed:
+Если нужны скрипты из bober-ai:
 
 ```bash
 export YAGA_REPO=/path/to/bober-ai
 ```
 
-## Commit style
+### TUI
 
-Pandas-style prefixes (`ENH:`, `BUG:`, `CI:`, …). No Cursor/Codex attribution.
+| Вкладка | |
+|---------|--|
+| 1 Bricks | список brick’ов, Enter = default |
+| 2 Creds | секреты + ссылки на UI Яндекса |
+| 3 Doctor | токены / бинарники |
+| 4 Output | результат |
+| 5 Help | |
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+Секреты: `~/.config/yaga/credentials.env` (не коммитить).
+
+## Профили
+
+| Профиль | |
+|---------|--|
+| `owner` | всё (для владельца) |
+| `public` | только `visibility: public` |
+| `custom` | enable / disable / hide |
+
+Конфиг: `~/.config/yaga/config.json`
+
+## Стиль коммитов
+
+Префиксы в духе pandas: `ENH:`, `BUG:`, `CI:`, …  
+В сообщениях коммитов **не** упоминать Cursor / Codex / Copilot.
+
+Подробнее: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## CI / CD
 
-- **CI** — `go vet`, build, test, smoke on push/PR; PR commits checked for `TYPE:` prefix
-- **Release** — tag `v*` → multi-arch binaries on GitHub Releases
+- **CI** — `go vet`, сборка, тесты, smoke на push/PR; в PR проверяется префикс `TYPE:` у коммитов
+- **Release** — тег `v*` → мультиархивные бинарники в GitHub Releases
 
 ```bash
 git tag v0.2.1
 git push origin v0.2.1
 ```
 
-## Stack
+## Стек
 
 - Go 1.22+
 - bubbletea + lipgloss + bubbles
+
+## Отказ от ответственности
+
+Яндекс® и названия сервисов (Вебмастер, Метрика, Директ и др.) — товарные знаки соответствующих правообладателей. **yaga** — независимый неофициальный клиент для удобной работы с публичными API и кабинетами, без гарантий совместимости и без официальной поддержки со стороны Яндекса.
