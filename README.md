@@ -26,7 +26,11 @@ yaga                         # TUI
 yaga webmaster status
 yaga webmaster oauth
 yaga webmaster seo
+yaga webmaster sitemap       # добавить /sitemap.xml в очередь Вебмастера
+yaga webmaster microtest
+yaga webmaster boost
 yaga metrika status
+yaga business status         # Яндекс Бизнес Partner API
 yaga direct campaigns status
 yaga bricks
 yaga profile public

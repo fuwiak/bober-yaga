@@ -302,8 +302,12 @@ func captureBrick(cfg Config, b Brick, args []string) (string, error) {
 			return runScriptCapture(cfg, "yandex-webmaster-seo.mjs", rest)
 		case "selfcheck", "checks", "checklist":
 			return runScriptCapture(cfg, "yandex-webmaster-selfcheck.mjs", rest)
+		case "microtest", "microdata", "validator":
+			return runScriptCapture(cfg, "yandex-webmaster-microtest.mjs", rest)
 		case "boost", "index":
 			return runScriptCapture(cfg, "yandex-webmaster-boost.mjs", rest)
+		case "sitemap", "sitemaps":
+			return runScriptCapture(cfg, "yandex-webmaster-sitemap.mjs", rest)
 		case "feed":
 			return runScriptCapture(cfg, "yandex-webmaster-feed.mjs", rest)
 		case "mirrors":
@@ -321,6 +325,12 @@ func captureBrick(cfg Config, b Brick, args []string) (string, error) {
 		}
 	case "direct":
 		return runScriptCapture(cfg, "yandex-direct-campaigns.mjs", []string{"status"})
+	case "business":
+		sub, rest := splitSub(args, "status")
+		if sub == "oauth" {
+			return runScriptCapture(cfg, "yandex-business-oauth.mjs", append([]string{"status"}, rest...))
+		}
+		return runScriptCapture(cfg, "yandex-business.mjs", args)
 	case "cloud":
 		return runBinCapture("yc", []string{"version"})
 	case "core":

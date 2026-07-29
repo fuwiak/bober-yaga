@@ -16,6 +16,7 @@ func allBricks() []Brick {
 		brickDisk(),
 		brickWordstat(),
 		brickDirect(),
+		brickBusiness(),
 		brickMail(),
 		brickSearch(),
 		brickGPT(),
@@ -47,14 +48,16 @@ Profiles: owner (all) · public (public only) · custom (enable/disable)
 func brickWebmaster() Brick {
 	return Brick{
 		ID: "webmaster", Title: "Yandex Webmaster", Visibility: VisPublic,
-		Aliases: []string{"wm"}, Description: "status / seo / selfcheck / boost / feed / mirrors / recrawl / oauth",
+		Aliases: []string{"wm"}, Description: "status / seo / selfcheck / microtest / boost / sitemap / feed / mirrors / recrawl / oauth",
 		DefaultArgs: []string{"status"},
-		Help: `yaga webmaster status|seo|selfcheck|boost|feed|mirrors|repair|recrawl|oauth
+		Help: `yaga webmaster status|seo|selfcheck|microtest|boost|sitemap|feed|mirrors|repair|recrawl|oauth
 
   status     снимок Вебмастер + Метрика
   seo        чеклист позиций (ИКС, диагностика, индекс, запросы)
   selfcheck  21 «Самостоятельные проверки» + группы целевых запросов
+  microtest  валидатор микроразметки: список URL + JSON-LD/OG снимок
   boost      переобход важных URL + чеклист региона/фида
+  sitemap    добавить /sitemap.xml в очередь Вебмастера
   feed       загрузка performers feed
   mirrors    зеркала
   repair     перезагрузка фида
@@ -73,8 +76,12 @@ func brickWebmaster() Brick {
 				return runScript(cfg, "yandex-webmaster-seo.mjs", rest)
 			case "selfcheck", "checks", "checklist":
 				return runScript(cfg, "yandex-webmaster-selfcheck.mjs", rest)
+			case "microtest", "microdata", "validator":
+				return runScript(cfg, "yandex-webmaster-microtest.mjs", rest)
 			case "boost", "index":
 				return runScript(cfg, "yandex-webmaster-boost.mjs", rest)
+			case "sitemap", "sitemaps":
+				return runScript(cfg, "yandex-webmaster-sitemap.mjs", rest)
 			case "feed":
 				return runScript(cfg, "yandex-webmaster-feed.mjs", rest)
 			case "mirrors":
@@ -209,6 +216,40 @@ yaga direct oauth […]`,
 				return runScript(cfg, "yandex-direct-oauth.mjs", rest)
 			default:
 				return runScript(cfg, "yandex-direct-campaigns.mjs", args)
+			}
+		},
+	}
+}
+
+func brickBusiness() Brick {
+	return Brick{
+		ID: "business", Title: "Yandex Business", Visibility: VisOwner,
+		Aliases: []string{"biz", "sprav", "geoadv"}, Description: "Partner API: card search/create + ads",
+		DefaultArgs: []string{"status"},
+		Help: `yaga business status|search|card|campaigns|rubrics|regions|owner|limits|oauth
+
+  status              ping API + companyId
+  search <text>       поиск организации
+  card                локальный профиль + API search
+  card create         create-company из data/yandex-business-company.json
+  campaigns           список/create/price/launch РК (агентство)
+  rubrics|regions     подсказки
+  limits              что API не умеет (edit card / stories)
+  oauth               bootstrap токена
+
+Docs: https://yandex.ru/dev/business-api/doc/ref/index.html
+UI:   https://yandex.ru/sprav/companies
+`,
+		Run: func(cfg Config, args []string) error {
+			sub, rest := splitSub(args, "status")
+			switch sub {
+			case "help", "--help":
+				fmt.Println(brickBusiness().Help)
+				return nil
+			case "oauth":
+				return runScript(cfg, "yandex-business-oauth.mjs", rest)
+			default:
+				return runScript(cfg, "yandex-business.mjs", args)
 			}
 		},
 	}
