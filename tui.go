@@ -326,6 +326,8 @@ func captureBrick(cfg Config, b Brick, args []string) (string, error) {
 			return runScriptCapture(cfg, "yandex-metrika-filters.mjs", rest)
 		case "organic":
 			return runScriptCapture(cfg, "yandex-metrika-filters.mjs", append([]string{"--organic"}, rest...))
+		case "ecommerce", "ecom":
+			return runScriptCapture(cfg, "yandex-metrika-ecommerce.mjs", rest)
 		case "ytm", "tag":
 			return runScriptCapture(cfg, "yandex-ytm-status.mjs", rest)
 		}

@@ -13,6 +13,7 @@ export default {
   yaga metrika counter      create/find counter
   yaga metrika filters      ensure "don't count my visits" + list filters
   yaga metrika organic      organic traffic for period
+  yaga metrika ecommerce    enable dataLayer ecommerce + RUB
   yaga metrika ytm          Yandex Tag Manager status
 `);
       return;
@@ -31,6 +32,10 @@ export default {
     }
     if (sub === "organic") {
       await ctx.runScript("yandex-metrika-filters.mjs", ["--organic", ...rest]);
+      return;
+    }
+    if (sub === "ecommerce" || sub === "ecom") {
+      await ctx.runScript("yandex-metrika-ecommerce.mjs", rest);
       return;
     }
     if (sub === "ytm" || sub === "tag") {

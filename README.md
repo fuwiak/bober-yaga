@@ -32,6 +32,7 @@ yaga webmaster boost
 yaga metrika status
 yaga metrika filters         # не учитывать мои + органика
 yaga metrika organic
+yaga metrika ecommerce       # dataLayer + RUB
 yaga business status         # Яндекс Бизнес Partner API
 yaga direct campaigns status
 yaga bricks

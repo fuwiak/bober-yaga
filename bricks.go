@@ -102,15 +102,16 @@ func brickWebmaster() Brick {
 func brickMetrika() Brick {
 	return Brick{
 		ID: "metrika", Title: "Yandex Metrika", Visibility: VisPublic,
-		Aliases: []string{"metrica", "ym"}, Description: "status / counter / filters / ytm",
+		Aliases: []string{"metrica", "ym"}, Description: "status / counter / filters / ecommerce / ytm",
 		DefaultArgs: []string{"status"},
-		Help: `yaga metrika status|counter|filters|organic|ytm
+		Help: `yaga metrika status|counter|filters|organic|ecommerce|ytm
 
-  status    снимок счётчика + цели
-  counter   найти/создать счётчик
-  filters   фильтры + «не учитывать мои» + органика
-  organic   только органика за период (--from/--to)
-  ytm       статус Яндекс Тег Менеджера
+  status      снимок счётчика + цели
+  counter     найти/создать счётчик
+  filters     фильтры + «не учитывать мои» + органика
+  organic     только органика за период (--from/--to)
+  ecommerce   включить dataLayer + валюта RUB
+  ytm         статус Яндекс Тег Менеджера
 `,
 		Run: func(cfg Config, args []string) error {
 			sub, rest := splitSub(args, "status")
@@ -126,6 +127,8 @@ func brickMetrika() Brick {
 				return runScript(cfg, "yandex-metrika-filters.mjs", rest)
 			case "organic":
 				return runScript(cfg, "yandex-metrika-filters.mjs", append([]string{"--organic"}, rest...))
+			case "ecommerce", "ecom":
+				return runScript(cfg, "yandex-metrika-ecommerce.mjs", rest)
 			case "ytm", "tag":
 				return runScript(cfg, "yandex-ytm-status.mjs", rest)
 			default:
