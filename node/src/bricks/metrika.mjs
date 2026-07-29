@@ -1,7 +1,7 @@
 export default {
   id: "metrika",
   title: "Yandex Metrika",
-  description: "Counter status, content analytics, create counter",
+  description: "Counter status, filters, organic traffic",
   visibility: "public",
   aliases: ["metrica", "ym"],
   async run(ctx, args) {
@@ -9,8 +9,10 @@ export default {
     if (!sub || sub === "help" || sub === "--help") {
       console.log(`yaga metrika
 
-  yaga metrika status       counter + content analytics snapshot
+  yaga metrika status       counter + goals snapshot
   yaga metrika counter      create/find counter
+  yaga metrika filters      ensure "don't count my visits" + list filters
+  yaga metrika organic      organic traffic for period
   yaga metrika ytm          Yandex Tag Manager status
 `);
       return;
@@ -21,6 +23,14 @@ export default {
     }
     if (sub === "counter") {
       await ctx.runScript("yandex-metrika-counter.mjs", rest);
+      return;
+    }
+    if (sub === "filters" || sub === "filter") {
+      await ctx.runScript("yandex-metrika-filters.mjs", rest);
+      return;
+    }
+    if (sub === "organic") {
+      await ctx.runScript("yandex-metrika-filters.mjs", ["--organic", ...rest]);
       return;
     }
     if (sub === "ytm" || sub === "tag") {

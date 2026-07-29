@@ -30,6 +30,8 @@ yaga webmaster sitemap       # добавить /sitemap.xml в очередь �
 yaga webmaster microtest
 yaga webmaster boost
 yaga metrika status
+yaga metrika filters         # не учитывать мои + органика
+yaga metrika organic
 yaga business status         # Яндекс Бизнес Partner API
 yaga direct campaigns status
 yaga bricks

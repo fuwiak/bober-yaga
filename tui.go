@@ -317,10 +317,16 @@ func captureBrick(cfg Config, b Brick, args []string) (string, error) {
 		}
 	case "metrika":
 		sub, rest := splitSub(args, "status")
-		if sub == "status" {
+		switch sub {
+		case "status":
 			return runScriptCapture(cfg, "yandex-metrika-status.mjs", rest)
-		}
-		if sub == "ytm" {
+		case "counter":
+			return runScriptCapture(cfg, "yandex-metrika-counter.mjs", rest)
+		case "filters", "filter":
+			return runScriptCapture(cfg, "yandex-metrika-filters.mjs", rest)
+		case "organic":
+			return runScriptCapture(cfg, "yandex-metrika-filters.mjs", append([]string{"--organic"}, rest...))
+		case "ytm", "tag":
 			return runScriptCapture(cfg, "yandex-ytm-status.mjs", rest)
 		}
 	case "direct":
