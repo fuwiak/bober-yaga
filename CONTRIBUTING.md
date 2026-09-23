@@ -48,7 +48,7 @@ Local hooks enforce this (`.githooks/`). Enable once:
 
 ```bash
 git clone https://github.com/fuwiak/bober-yaga.git
-cd yaga
+cd bober-yaga
 ./.githooks/install.sh
 go build -o yaga .
 ./install.sh   # optional: ~/bin/yaga

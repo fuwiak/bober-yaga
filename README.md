@@ -13,7 +13,7 @@ Brick’и, которые вызывают `scripts/*.mjs`, ожидают chec
 
 ```bash
 git clone https://github.com/fuwiak/bober-yaga.git
-cd yaga
+cd bober-yaga
 go build -o yaga .
 ./install.sh            # ~/bin/yaga → ./run
 ./.githooks/install.sh  # хуки стиля коммитов (для контрибьюторов)
