@@ -50,6 +50,18 @@ func TestDocsUseNewRepoName(t *testing.T) {
 			t.Errorf("%s: stale `cd yaga` after clone", name)
 		}
 	}
+
+	readme, err := os.ReadFile("README.md")
+	if err != nil {
+		t.Fatal(err)
+	}
+	first := strings.SplitN(string(readme), "\n", 2)[0]
+	if first != "# bober-yaga" {
+		t.Fatalf("README title = %q, want %q", first, "# bober-yaga")
+	}
+	if strings.HasPrefix(string(readme), "# yaga\n") {
+		t.Fatal("README still titled # yaga")
+	}
 }
 
 func TestNoStaleGitHubNameInTrackedDocs(t *testing.T) {
