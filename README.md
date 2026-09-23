@@ -6,13 +6,13 @@
 
 Каждый сервис — **brick** (кирпичик) в `bricks.go`. Профили скрывают private-функции.
 
-Репозиторий: [`github.com/fuwiak/yaga`](https://github.com/fuwiak/yaga).  
+Репозиторий: [`github.com/fuwiak/bober-yaga`](https://github.com/fuwiak/bober-yaga).  
 Brick’и, которые вызывают `scripts/*.mjs`, ожидают checkout **bober-ai** через `YAGA_REPO`.
 
 ## Установка
 
 ```bash
-git clone https://github.com/fuwiak/yaga.git
+git clone https://github.com/fuwiak/bober-yaga.git
 cd yaga
 go build -o yaga .
 ./install.sh            # ~/bin/yaga → ./run

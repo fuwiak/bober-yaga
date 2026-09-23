@@ -1,4 +1,4 @@
-module github.com/fuwiak/yaga
+module github.com/fuwiak/bober-yaga
 
 go 1.25.4
 

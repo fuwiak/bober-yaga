@@ -30,7 +30,7 @@ Examples:
 ENH: add Audience brick for segment sync
 BUG: fix credentials path when HOME unset
 CI: run go test on pull requests
-BLD: retarget module path to github.com/fuwiak/yaga
+BLD: retarget module path to github.com/fuwiak/bober-yaga
 ```
 
 ## Do not put in commits
@@ -47,7 +47,7 @@ Local hooks enforce this (`.githooks/`). Enable once:
 ## Setup after clone
 
 ```bash
-git clone https://github.com/fuwiak/yaga.git
+git clone https://github.com/fuwiak/bober-yaga.git
 cd yaga
 ./.githooks/install.sh
 go build -o yaga .
